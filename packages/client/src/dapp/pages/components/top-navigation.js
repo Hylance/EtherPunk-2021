@@ -3,7 +3,7 @@ import { LitElement, html, customElement, property } from "lit-element";
 export default class TopNavigation extends LitElement {
   @property()
   collapse;
-  
+
   createRenderRoot() {
     return this;
   }
@@ -19,12 +19,12 @@ export default class TopNavigation extends LitElement {
     let staticPages = [
       {
         name: "dapp",
-        title: "Home",
+        title: "Matic",
         route: "/"
       },
       {
         name: "harness",
-        title: "UI Harness",
+        title: "Wallets Explorer",
         route: "/harness"
       }
     ];

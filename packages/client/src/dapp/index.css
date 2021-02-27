@@ -24,6 +24,11 @@ a {
   color: #495057;
 }
 
+.logo {
+  height: 1.1rem;
+  display: inline;
+}
+
 .active{
   background-color: #e9ecef !;
 }
@@ -168,10 +173,10 @@ main {
   .fixed-bottom {
       display: none;
   }
-  
+
 }
 
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
 
   #breadcrumb{
     flex-direction: column;

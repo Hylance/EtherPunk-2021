@@ -33,8 +33,8 @@ export default class HarnessPage extends LitElement {
     return[
     {
         "name": "administrator_role",
-        "title": "Administrator Role",
-        "description": "Define accounts that can perform certain admin functions.",
+        "title": "Wallets Explorer",
+        "description": "Looking up token balance in a wallet along with NFTs.",
         "category": "Access Control",
         "route": "/administrator_role"
     },
@@ -52,7 +52,7 @@ export default class HarnessPage extends LitElement {
         "category": "File Storage",
         "route": "/ipfs"
     }
-]; 
+];
   }
 
   handleClick = e => {
@@ -97,7 +97,7 @@ export default class HarnessPage extends LitElement {
         }
         </ul>
       </div>
-    `; 
+    `;
     return content;
 
   }
