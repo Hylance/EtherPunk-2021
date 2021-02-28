@@ -1,8 +1,8 @@
 {
 	"httpUri": "https://rpc-mumbai.matic.today",
 	"wsUri": "wss://ws-mumbai.matic.today",
-	"dappStateContractAddress": "0xC84651febEA15b211bE76b0698501a54236e7355",
-	"dappContractAddress": "0xcE4180B20Bc42195BFBffD4E80F988e08939D478",
+	"dappStateContractAddress": "0x3491F4279Be45494d1244a418FaC82C7b70edc7a",
+	"dappContractAddress": "0x334A8cf1BA6be0B8bFCa06068Bc1BC300980C8e8",
 	"accounts": [
 		"0x6206b9a42bc60508c2c738e8d1318f70626f5dc1",
 		"0x62e5b3fe500b1dcff5adad39ef2f1d249b6ef08f",
