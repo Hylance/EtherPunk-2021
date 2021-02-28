@@ -1,6 +1,9 @@
 # My Dapp
 
-This project is for the blockchain application My Dapp. It contains code for the Smart Contract, web-based dapp and NodeJS server. 
+This project is for the EtherPunk 2021. It contains code for the Smart Contract, web-based dapp and NodeJS server. <br />
+Team: Defi Degener <br />
+Author: Cuegod <br />
+Utilized Tools: Dappstarter and Covalent API <br />
 
 # Pre-requisites
 
@@ -53,7 +56,7 @@ Run the dapp in a separate terminal. You *must* have run `npm run deploy` for th
 
 Run the server in a separate terminal. You *must* have run `npm run deploy` for the dapp to see most recent smart contract changes.
 
-`yarn server` runs NodeJS server app on port 5002 with NestJS
+`yarn server` runs NodeJS server app on port 5002 with NestJS. `yarn start` runs NodeJS server app on port 5000, 5001 and 5002.
 
 ## Testing
 
