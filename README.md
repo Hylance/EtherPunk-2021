@@ -1,9 +1,10 @@
 # My Dapp
 
 This project is for the EtherPunk 2021. It contains code for the Smart Contract, web-based dapp and NodeJS server. <br />
-Team: Defi Degener <br />
-Author: Cuegod <br />
-Utilized Tools: Dappstarter and Covalent API <br />
+
+* Team: Defi Degener <br />
+* Author: Cuegod <br />
+* Utilized Tools: Dappstarter and Covalent API <br />
 
 # Pre-requisites
 
