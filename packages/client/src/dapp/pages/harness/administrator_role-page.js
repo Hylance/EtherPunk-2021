@@ -25,7 +25,7 @@ export default class AdministratorRolePage extends LitElement {
     return this;
   }
 
-  
+
   render() {
     /*>>>>>>>>>>>>>>>>>>>>>>>>>>> ACCESS CONTROL: ADMINISTRATOR ROLE  <<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
@@ -35,71 +35,19 @@ export default class AdministratorRolePage extends LitElement {
         category="${this.category}"
         description="${this.description}"
       >
+        <h4>Powered by: <img src="https://www.covalenthq.com/static/images/covalent-logo.png" alt="Covalent Logo" class="logo"></h4>
+        <br />
+        <br />
         <action-card
-          title="Is Contract Admin"
-          description="Check if an account is a contract administrator"
-          action="isContractAdmin"
-          method="get"
-          fields="account"
-        >
-          <account-widget
-            field="account"
-            label="Account"
-            placeholder="Account address"
-          >
-          </account-widget>
-        </action-card>
+            title="Get Wallet Info" description="Get Wallet token balance using its public address"
+            action="getWalletBalance" method="get" fields="id chain">
 
-        <action-card
-          title="Add Contract Admin"
-          description="Add an account as a contract administrator"
-          action="addContractAdmin"
-          method="post"
-          fields="account"
-        >
-          <account-widget
-            field="account"
-            label="Account"
-            placeholder="Account address of administrator to add"
-          >
-          </account-widget>
-        </action-card>
-
-        <action-card
-          title="Remove Contract Admin"
-          description="Remove an account as a contract administrator"
-          action="removeContractAdmin"
-          method="post"
-          fields="account"
-        >
-          <account-widget
-            field="account"
-            label="Account"
-            placeholder="Account address of administrator to remove"
-          >
-          </account-widget>
-        </action-card>
-
-        <action-card
-          title="Remove Last Contract Admin"
-          description="Remove an account as a contract administrator"
-          action="removeLastContractAdmin"
-          method="post"
-          fields="account"
-        >
-          <h6 class="bg-red-700 mb-3 p-4 text-white">
-            This transaction will remove the last remaining administrator. Any
-            functions that use requireContractAdmin() will fail, effectively
-            making this a fully decentralized contract. This action is
-            irreversible. Proceed with caution.
-          </h6>
-
-          <account-widget
-            field="account"
-            label="Account"
-            placeholder="Account address of administrator to remove"
-          >
-          </account-widget>
+          <number-widget
+              field="id" label="wallet address" placeholder="Input your wallet address">
+          </number-widget>
+          <number-widget
+              field="chain" label="ChainId" placeholder="137 for Matic and 1 for Ethereum">
+          </number-widget>
         </action-card>
       </page-body>
       <page-panel id="resultPanel"></page-panel>

@@ -1,4 +1,3 @@
-import DappLib from "@decentology/dappstarter-dapplib";
 import DOM from "../../../lib/components/shared/dom";
 import "../../../lib/components/shared/action-card.js";
 import "../../../lib/components/shared/action-button.js";

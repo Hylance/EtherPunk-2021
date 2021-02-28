@@ -4,7 +4,6 @@ const dappConfig = require( '../dapp-config.json');
 const ClipboardJS = require( 'clipboard');
 const SvgIcons = require( './components/svg-icons');
 const BN = require('bn.js'); // Required for injected code
-
 const ipfsClient = require( 'ipfs-http-client');
 const bs58 = require( 'bs58');
 
@@ -128,7 +127,7 @@ module.exports = class DappLib {
         return {
             type: DappLib.DAPP_RESULT_TX_HASH,
             label: 'Transaction Hash',
-            result: DappLib.getTransactionHash(result.callData),    
+            result: DappLib.getTransactionHash(result.callData),
             hint: `Verify contract run state is ${data.mode ? 'active' : 'inactive'} by calling contract functions that use requireContractRunStateActive().`
         }
     }
@@ -233,7 +232,7 @@ module.exports = class DappLib {
                 asciiCallData.push(DappLib.toAscii(result.callData[i]));
             }
         }
-        
+
         return {
             type: DappLib.DAPP_RESULT_ARRAY,
             label: 'Documents',
@@ -321,9 +320,28 @@ module.exports = class DappLib {
     }
 
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Wallet Explorer  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+    static async getWalletBalance(data) {
+        const url = new URL(`https://api.covalenthq.com/v1/${data.chain}/address/${data.id}/balances_v2?key=onemillionwallets`);
+        let resultData = []
+        await fetch(url)
+            .then((resp) => resp.json())
+            .then(function(data) {
+                let tokens = data.data.items;
+                tokens.map(token => token.contract_decimals > 0 ? token.balance =  Math.round((parseInt(token.balance) / Math.pow(10, token.contract_decimals)) * 100) / 100 : parseInt(token.balance));
+                tokens.map(token => token.quote = token.quote.toFixed(2));
+                resultData = tokens;
+            })
+        return {
+            type: DappLib.DAPP_WALLET_ARRAY,
+            label: 'Wallet Details',
+            result: resultData
+        }
+    }
 
 
-/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DAPP LIBRARY  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DAPP LIBRARY  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
 
     static get DAPP_STATE_CONTRACT() {
         return 'dappStateContract'
@@ -363,6 +381,10 @@ module.exports = class DappLib {
         return 'array'
     }
 
+    static get DAPP_WALLET_ARRAY() {
+        return 'wallet-array'
+    }
+
     static get DAPP_RESULT_OBJECT() {
         return 'object'
     }
@@ -380,8 +402,8 @@ module.exports = class DappLib {
                 config: DappLib.getConfig(),
                 contract: contract,
                 params: params || {}
-            }, 
-            event, 
+            },
+            event,
             (error, result) => {
                                 if (error) {
                                     callback({
@@ -389,14 +411,14 @@ module.exports = class DappLib {
                                         type: DappLib.DAPP_RESULT_ERROR,
                                         label: 'Error Message',
                                         result: error
-                                    });    
+                                    });
                                 } else {
                                     callback({
                                         event: event,
                                         type: DappLib.DAPP_RESULT_OBJECT,
                                         label: 'Event ' + event,
                                         result: DappLib.getObjectNamedProperties(result)
-                                    });    
+                                    });
                                 }
                             }
             );
@@ -405,11 +427,11 @@ module.exports = class DappLib {
     static getTransactionHash(t) {
         if (!t) { return ''; }
         let value = '';
-        if (typeof t === 'string') {                
+        if (typeof t === 'string') {
             value = t;
-        } else if (typeof t === 'object') {    
+        } else if (typeof t === 'object') {
             if (t.hasOwnProperty('transactionHash')) {
-                    value = t.transactionHash;       // Ethereum                
+                    value = t.transactionHash;       // Ethereum
             } else {
                 value = JSON.stringify(t);
             }
@@ -477,6 +499,31 @@ module.exports = class DappLib {
         return DappLib.formatArray(data, formatters, labels, keys);
     }
 
+    static formatWalletArray(retValElement) {
+        let output = '<table class="table table-striped" style=width:100%;margin-top:20px;>\n' +
+            '        <thead>\n' +
+            '            <tr>\n' +
+            '                <th></th>\n' +
+            '                <th>Token</th>\n' +
+            '                <th>Symbol</th>\n' +
+            '                <th>Balance</th>\n' +
+            '                <th>Fiat Value</th>\n' +
+            '            </tr>\n' +
+            '        </thead>';
+        output += '<tbody>';
+        retValElement.map((item) => {
+            output += '<tr>';
+            output += `<td><img src=${item.logo_url} style=width:50px;height:50px;/></td>`;
+            output += `<td> ${item.contract_name} </td>`;
+            output += `<td> ${item.contract_ticker_symbol} </td>`;
+            output += `<td> ${item.balance} </td>`;
+            output += `<td> ${item.quote} </td>`;
+            output += '</tr>';
+        })
+        output += '</tbody></table>';
+        return output;
+    }
+
     static formatArray(h, dataFormatters, dataLabels, dataKeys) {
 
         let output = '<table class="table table-striped">';
@@ -485,7 +532,7 @@ module.exports = class DappLib {
             output += '<thead><tr>';
             for(let d=0; d<dataLabels.length; d++) {
                 output += `<th scope="col">${dataLabels[d]}</th>`;
-            }    
+            }
             output += '</tr></thead>';
         }
         output += '<tbody>';
@@ -505,11 +552,11 @@ module.exports = class DappLib {
                         } else if (formatterFrags.length === 2) {
                             text = DappLib.toCondensed(text, Number(formatterFrags[1]));
                         }
-                        formatter = formatterFrags[0];    
+                        formatter = formatterFrags[0];
                     }
-                    output += (d == 0 ? '<th scope="row">' : '<td>') + DappLib[formatter](text, copyText) + (d == 0 ? '</th>' : '</td>');                        
+                    output += (d == 0 ? '<th scope="row">' : '<td>') + DappLib[formatter](text, copyText) + (d == 0 ? '</th>' : '</td>');
                 }
-            }    
+            }
             output += '</tr>';
         })
         output += '</tbody></table>';
@@ -563,14 +610,17 @@ module.exports = class DappLib {
             case DappLib.DAPP_RESULT_OBJECT:
                 formatted = DappLib.formatObject(retVal[returnKey]);
                 break;
+            case DappLib.DAPP_WALLET_ARRAY:
+                formatted = DappLib.formatWalletArray(retVal[returnKey]);
+                break;
             default:
                 formatted = retVal[returnKey];
                 break;
         }
 
         let resultNode = document.createElement('div');
-        resultNode.className = `note ${retVal.type === DappLib.DAPP_RESULT_ERROR ? 'bg-red-400' : 'bg-green-400'} m-3 p-3`; 
-        let closeMarkup = '<div class="float-right" onclick="this.parentNode.parentNode.removeChild(this.parentNode)" title="Dismiss" class="text-right mb-1 mr-2" style="cursor:pointer;">X</div>';    
+        resultNode.className = `note ${retVal.type === DappLib.DAPP_RESULT_ERROR ? 'bg-red-400' : 'bg-green-400'} m-3 p-3`;
+        let closeMarkup = '<div class="float-right" onclick="this.parentNode.parentNode.removeChild(this.parentNode)" title="Dismiss" class="text-right mb-1 mr-2" style="cursor:pointer;">X</div>';
         resultNode.innerHTML = closeMarkup + `${retVal.type === DappLib.DAPP_RESULT_ERROR ? '☹️' : '👍️'} ` + (Array.isArray(retVal[returnKey]) ? 'Result' : retVal.label) + ': ' + formatted + DappLib.formatHint(retVal.hint);
         // Wire-up clipboard copy
         new ClipboardJS('.copy-target', {
@@ -592,7 +642,7 @@ module.exports = class DappLib {
         }
         return newObj;
     }
-    
+
     static addClippy(data) {
         let icon = SvgIcons.clippy;
         return icon.replace('<svg ', `<svg data-copy="${data}" `)
@@ -621,7 +671,7 @@ module.exports = class DappLib {
         }
         return hex + '0'.repeat(padding*2 - hex.length + 2);
     };
-    
+
     static toAscii(hex) {
         var str = '',
             i = 0,
@@ -657,7 +707,7 @@ module.exports = class DappLib {
             return v.toString(16);
         });
     }
-    
+
     static getConfig() {
         return dappConfig;
     }
@@ -670,7 +720,7 @@ module.exports = class DappLib {
     static getTestConfig(testDappStateContract, testDappContract, testAccounts) {
 
         return Object.assign(
-            {}, 
+            {},
             dappConfig,
             {
                 dappStateContractAddress: testDappStateContract.address,
@@ -705,5 +755,4 @@ module.exports = class DappLib {
             }
         );
     }
-
 }

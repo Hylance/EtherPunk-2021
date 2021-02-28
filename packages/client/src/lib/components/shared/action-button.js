@@ -77,7 +77,6 @@ export default class ActionButton extends LitElement {
     });
 
     try {
-      //console.log('Last call, values: ', this.action, values);
       let retVal = await DappLib[this.action].call(null, values);
       let resultNode = DappLib.getFormattedResultNode(retVal, this.return);
       this.fireClickEvent(retVal, resultNode);
