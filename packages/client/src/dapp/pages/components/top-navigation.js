@@ -23,9 +23,9 @@ export default class TopNavigation extends LitElement {
         route: "/"
       },
       {
-        name: "harness",
+        name: "dashboard",
         title: "Wallets Explorer",
-        route: "/harness"
+        route: "/dashboard"
       }
     ];
     return staticPages;

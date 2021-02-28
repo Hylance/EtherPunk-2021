@@ -8,8 +8,8 @@ import "../../../lib/components/widgets/upload-widget.js";
 import { unsafeHTML } from "lit-html/directives/unsafe-html";
 import { LitElement, html, customElement, property } from "lit-element";
 
-@customElement("harness-page")
-export default class HarnessPage extends LitElement {
+@customElement("dashboard-page")
+export default class DashboardPage extends LitElement {
   @property()
   get;
   @property()

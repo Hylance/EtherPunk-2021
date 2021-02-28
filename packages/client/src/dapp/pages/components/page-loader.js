@@ -46,7 +46,7 @@ export default class PageLoader extends LitElement {
     try {
       if (pageItem.name === 'dapp') {
         await import(`../../pages/${pageItem.name}.js`);
-      } else if (pageItem.name === 'harness') {
+      } else if (pageItem.name === 'dashboard') {
         await import(`../../pages/harness/${pageItem.name}.js`);
       } else {
         await import(`../../pages/harness/${pageItem.name}-page.js`);
