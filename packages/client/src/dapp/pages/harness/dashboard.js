@@ -70,10 +70,8 @@ export default class DashboardPage extends LitElement {
       <div class="container m-auto">
         <div class="row fadeIn mt-3 p-2 block">
           <p class="mt-3">
-            Welcome to the UI Harness! Each feature module you selected for your project 
-            has a page that demonstrates all of the module's capabilities with a user interface. You can 
-            try the various features, then copy code selectively to your Dapp page. To continue, 
-            select a feature module.           
+            Hello Defi Degeners! There are three modules in this app: Wallets Explorer, Contract Run State and IPFS Documents. To get started,
+              click on any module to see details.
           </p>
         </div>
         <ul class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
