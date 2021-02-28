@@ -4,8 +4,8 @@ import "../components/page-body.js";
 import "../../../lib/components/widgets/account-widget.js";
 import { LitElement, html, customElement, property } from "lit-element";
 
-@customElement("administrator-role-page")
-export default class AdministratorRolePage extends LitElement {
+@customElement("wallet-page")
+export default class WalletPage extends LitElement {
   @property()
   category;
   @property()

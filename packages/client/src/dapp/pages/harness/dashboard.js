@@ -31,11 +31,11 @@ export default class DashboardPage extends LitElement {
   getPages() {
     return[
     {
-        "name": "administrator_role",
+        "name": "wallet",
         "title": "Wallets Explorer",
         "description": "Looking up token balance in a wallet along with NFTs.",
-        "category": "Access Control",
-        "route": "/administrator_role"
+        "category": "Wallet Info",
+        "route": "/wallet"
     },
     {
         "name": "contract_runstate",
